@@ -15,7 +15,7 @@ class TrustHosts extends Middleware
     {
         return [
             $this->allSubdomainsOfApplicationUrl(),
-            'https://code-thoi.herokuapp.com'
+            'https://code-thoi.herokuapp.com/'
         ];
     }
 }
