@@ -1,5 +1,5 @@
 <div class="mb-5">
-    <form class="flex items-center" action="{{ route('categories.index') }}">
+    <form class="flex items-center" action="{{ route('admin.categories.index') }}">
         <label for="search" class="sr-only">Search</label>
         <div class="relative w-full group">
             <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -15,7 +15,7 @@
             </button>
         </div>
 
-        <a href="{{ route('categories.index') }}" title="Reset filter"
+        <a href="{{ route('admin.categories.index') }}" title="Reset filter"
             class="inline-flex items-center py-2.5 px-2.5 ml-2 text-sm font-medium text-white bg-gray-700 rounded-lg border border-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
             <x-icon.reset />
         </a>

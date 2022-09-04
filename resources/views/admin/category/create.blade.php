@@ -11,7 +11,7 @@
 
     <x-container>
 
-        <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">

@@ -11,7 +11,7 @@
 
     <x-container>
 
-        <form method="POST" action="{{ route('categories.update', $category) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.categories.update', $category) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="grid grid-cols-6 gap-6">
