@@ -6,12 +6,6 @@
     </x-slot>
 
     <x-container>
-        @php
-        $users = App\Models\User::all();
-        $categories = App\Models\Category::all();
-        // $posts = App\Models\Post::all();
-        // $tags = App\Models\Tag::all();
-    @endphp
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
             <a href="#" class="">
                 <div
@@ -34,7 +28,7 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ route('categories.index') }}">
+            <a href="{{ route('admin.categories.index') }}">
                 <div
                     class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
                     <div
@@ -91,7 +85,7 @@
 
                     </div>
                     <div class="text-right">
-                        <p class="text-2xl">123</p>
+                        <p class="text-2xl">15</p>
                         <p>Tags</p>
                     </div>
                 </div>

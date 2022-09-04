@@ -10,7 +10,7 @@
     </x-slot>
     <x-container>
 
-        <a href="{{ route('categories.create') }}"
+        <a href="{{ route('admin.categories.create') }}"
             class="inline-flex items-center mb-5 px-4 py-2 bg-indigo-700 hover:scale-95 shadow-md hover:shadow-lg border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-600 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
             <x-icon.plus />
             {{ __('Add new') }}
@@ -64,13 +64,13 @@
                             <div class="flex item-center justify-center">
                                 <div
                                     class="mr-4 transform text-blue-600 hover:text-cyan-700 hover:scale-110 transition duration-150 ease-in-out">
-                                    <a href="{{ route('categories.edit', $category) }}">
+                                    <a href="{{ route('admin.categories.edit', $category) }}">
                                         <x-icon.edit />
                                     </a>
                                 </div>
                                 <div
                                     class="transform text-red-600 hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out">
-                                    <form action="{{ route('categories.destroy', $category) }}" method="POST"
+                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')

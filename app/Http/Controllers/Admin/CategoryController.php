@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
@@ -51,7 +52,7 @@ class CategoryController extends Controller
             'order_at' => $request->order_at
         ]);
 
-        return redirect()->route('categories.index')->with('success', 'Add category successful !');
+        return redirect()->route('admin.categories.index')->with('success', 'Add category successful !');
     }
 
     /**
@@ -94,7 +95,7 @@ class CategoryController extends Controller
             'slug' => $request->slug
         ]);
 
-        return redirect()->route('categories.index')->with('success', 'Edit category successful !');
+        return redirect()->route('admin.categories.index')->with('success', 'Edit category successful !');
     }
 
     /**
@@ -107,6 +108,6 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Delete category successful !');
+        return redirect()->route('admin.categories.index')->with('success', 'Delete category successful !');
     }
 }
