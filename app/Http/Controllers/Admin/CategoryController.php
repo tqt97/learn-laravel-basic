@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
-use App\Models\TemporaryFile;
+
 
 class CategoryController extends Controller
 {
+
     private $categoryRecursive;
 
     public function __construct(CategoryRecursive $categoryRecursive, Category $category)
@@ -60,17 +61,7 @@ class CategoryController extends Controller
             'order_at' => $request->order_at
         ]);
 
-        $fileName = $request->image;
-        $tmpFile = TemporaryFile::where('folder', $fileName)->first();
-        if ($tmpFile) {
-            $category->addMedia(storage_path('app/public/images/tmp/' . $fileName . '/' . $tmpFile->filename))
-                ->sanitizingFileName(function ($fileName) {
-                    return strtolower(str_replace(['!', '@', '#', '$', '%', '^', '&', '*', '/', '\\', ' '], '-', $fileName));
-                })
-                ->toMediaCollection('categories');
-            rmdir(storage_path('app/public/images/tmp/' . $fileName));
-            $tmpFile->delete();
-        }
+        $category->storeFilePondMedia($request, $category, 'categories');
 
         return redirect()->route('admin.categories.index')->with('success', 'Add category successful !');
     }
@@ -116,18 +107,7 @@ class CategoryController extends Controller
             'slug' => $request->slug
         ]);
 
-        $fileName = $request->image;
-        $tmpFile = TemporaryFile::where('folder', $fileName)->first();
-        if ($tmpFile) {
-            $category->clearMediaCollection('categories');
-            $category->addMedia(storage_path('app/public/images/tmp/' . $fileName . '/' . $tmpFile->filename))
-                ->sanitizingFileName(function ($fileName) {
-                    return strtolower(str_replace(['!', '@', '#', '$', '%', '^', '&', '*', '/', '\\', ' '], '-', $fileName));
-                })
-                ->toMediaCollection('categories');
-            rmdir(storage_path('app/public/images/tmp/' . $fileName));
-            $tmpFile->delete();
-        }
+        $category->updateFilePondMedia($request, $category, 'categories');
 
         return redirect()->route('admin.categories.index')->with('success', 'Edit category successful !');
     }
@@ -141,6 +121,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        $category->clearMediaCollection('categories');
 
         return redirect()->route('admin.categories.index')->with('success', 'Delete category successful !');
     }
