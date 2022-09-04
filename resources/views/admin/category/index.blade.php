@@ -25,6 +25,7 @@
                         <input type="checkbox" name="checkAll" id="">
                     </th>
                     <th class="py-3 px-1 text-center"> {{ __('No.') }}</th>
+                    <th class="py-3 px-3 text-center"> {{ __('Image') }}</th>
                     <th class="py-3 px-6 text-left"> {{ __('Name') }}</th>
                     <th class="py-3 px-3 text-left"> {{ __('Created at') }}</th>
                     <th class="py-3 px-3 text-center"> {{ __('Order at') }}</th>
@@ -40,6 +41,12 @@
                         </td>
                         <td class="py-3 px-1 text-center">
                             {{ $index + $categories->firstItem() }}
+                        </td>
+                        <td class="py-3 px-3 text-center">
+                            <div class="flex items-center justify-center">
+                                <img src="{{ $category->getFirstMediaUrl('categories','thumb-60') }}" class=""
+                                    alt="{{ $category->name }}">
+                            </div>
                         </td>
                         <td class="py-3 px-6 text-left">
                             <span>{{ $category->name }} ({{ $category->childrenCategories()->count() }})</span>

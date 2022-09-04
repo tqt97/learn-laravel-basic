@@ -31,12 +31,13 @@
                     <x-label for="parent_id" value="{{ __('Category') }}" />
                     <x-select name="parent_id" id="parent_id">
                         <option value="">--Select category--</option>
-                        @foreach ($allCategories as $item)
+                        {{-- @foreach ($allCategories as $item)
                             <option value="{{ $item->id }}"
                                 {{ $category->parent_id == $item->id ? 'selected' : '' }}>
                                 {{ $item->name }}
                             </option>
-                        @endforeach
+                        @endforeach --}}
+                        {!! $options !!}
                     </x-select>
                     <x-input-error for="parent_id" class="mt-2" />
                 </div>
@@ -60,6 +61,18 @@
                             <x-label for="status" value="{{ __('Status') }}" />
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-6 gap-6 mt-4">
+                <div class="col-span-6 sm:col-span-3">
+                    <x-label for="image" value="{{ __('Upload image') }}" />
+                    <input type="file" class="block mt-1 w-full" class="" name="image" id="image">
+                    <x-input-error for="image" class="mt-2" />
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-100') }}" class="w-36 h-36"
+                        alt="{{ $category->name }}">
                 </div>
             </div>
 

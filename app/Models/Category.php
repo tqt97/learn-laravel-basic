@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Category extends Model
+class Category extends Model  implements HasMedia
 {
     use HasFactory;
     use Sluggable;
+    use InteractsWithMedia;
 
     protected $fillable = ['name', 'slug', 'order_at', 'status', 'parent_id', 'image'];
 
@@ -52,5 +56,22 @@ class Category extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('main')
+            ->width(800)
+            ->height(600)
+            ->sharpen(10);
+
+        $this->addMediaConversion('thumb-60')
+            ->width(60)
+            ->height(60);
+
+        $this->addMediaConversion('thumb-100')
+            ->width(100)
+            ->height(100);
     }
 }

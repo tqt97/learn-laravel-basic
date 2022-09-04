@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Components\CategoryRecursive;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\TemporaryFile;
 
 class CategoryController extends Controller
 {
+    private $categoryRecursive;
+
+    public function __construct(CategoryRecursive $categoryRecursive, Category $category)
+    {
+        $this->categoryRecursive = $categoryRecursive;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -32,9 +40,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $options = $this->categoryRecursive->createCategory();
 
-        return view('admin.category.create', compact('categories'));
+        return view('admin.category.create', compact('options'));
     }
 
     /**
@@ -45,12 +53,24 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        Category::create([
+        $category = Category::create([
             'name' => $request->name,
             'status' => $request->status ? true : false,
             'parent_id' => $request->parent_id,
             'order_at' => $request->order_at
         ]);
+
+        $fileName = $request->image;
+        $tmpFile = TemporaryFile::where('folder', $fileName)->first();
+        if ($tmpFile) {
+            $category->addMedia(storage_path('app/public/images/tmp/' . $fileName . '/' . $tmpFile->filename))
+                ->sanitizingFileName(function ($fileName) {
+                    return strtolower(str_replace(['!', '@', '#', '$', '%', '^', '&', '*', '/', '\\', ' '], '-', $fileName));
+                })
+                ->toMediaCollection('categories');
+            rmdir(storage_path('app/public/images/tmp/' . $fileName));
+            $tmpFile->delete();
+        }
 
         return redirect()->route('admin.categories.index')->with('success', 'Add category successful !');
     }
@@ -74,8 +94,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $allCategories = Category::where('id', 'NOT LIKE', $category->id)->get();
-        return view('admin.category.edit', compact('category', 'allCategories'));
+        $options = $this->categoryRecursive->editCategory($category->id, $category->parent_id);
+
+        return view('admin.category.edit', compact('category', 'options'));
     }
 
     /**
@@ -94,6 +115,19 @@ class CategoryController extends Controller
             'order_at' => $request->order_at,
             'slug' => $request->slug
         ]);
+
+        $fileName = $request->image;
+        $tmpFile = TemporaryFile::where('folder', $fileName)->first();
+        if ($tmpFile) {
+            $category->clearMediaCollection('categories');
+            $category->addMedia(storage_path('app/public/images/tmp/' . $fileName . '/' . $tmpFile->filename))
+                ->sanitizingFileName(function ($fileName) {
+                    return strtolower(str_replace(['!', '@', '#', '$', '%', '^', '&', '*', '/', '\\', ' '], '-', $fileName));
+                })
+                ->toMediaCollection('categories');
+            rmdir(storage_path('app/public/images/tmp/' . $fileName));
+            $tmpFile->delete();
+        }
 
         return redirect()->route('admin.categories.index')->with('success', 'Edit category successful !');
     }

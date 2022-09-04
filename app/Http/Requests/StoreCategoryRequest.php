@@ -29,6 +29,7 @@ class StoreCategoryRequest extends FormRequest
             'status' => 'required|boolean|sometimes',
             'order_at' => 'integer|sometimes',
             'parent_id' => 'integer|nullable',
+            // 'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ];
     }
 }
