@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GenerateSlugController;
+use App\Http\Controllers\UploadImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('upload', [UploadImageController::class, 'store']);
 
 require __DIR__ . '/auth.php';
 

@@ -1,6 +1,22 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
 
 <style>
+    .filepond--root .filepond--credits {
+        display: none;
+    }
+
+    .filepond--panel-root {
+        /* background-color: #ffffff; */
+        /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04); */
+        /* border: 1px solid #ced4da; */
+    }
+
+    .filepond--drop-label {
+        /* color: #355d88 */
+    }
+
     .select2-container--default .select2-selection--multiple {
         border-color: rgb(209 213 219) !important;
     }
@@ -48,5 +64,9 @@
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         height: 42px !important;
 
+    }
+
+    .select2-container--default .select2-results__option--disabled {
+        /* color: #000 !important; */
     }
 </style>
