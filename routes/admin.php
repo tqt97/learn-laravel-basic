@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('dashboard', DashboardController::class,)->name('dashboard');
-
+Route::get('categories/{id}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
 Route::resource('categories', CategoryController::class);
 
 

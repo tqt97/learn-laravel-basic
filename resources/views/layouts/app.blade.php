@@ -57,6 +57,8 @@
 
         <!-- Page Content -->
         <main>
+        @include('layouts.undo')
+
             {{ $slot }}
         </main>
     </div>
