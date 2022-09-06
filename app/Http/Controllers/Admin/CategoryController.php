@@ -121,8 +121,17 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        $category->clearMediaCollection('categories');
+        // $category->clearMediaCollection('categories');
 
-        return redirect()->route('admin.categories.index')->with('success', 'Delete category successful !');
+        return redirect()->route('admin.categories.index')
+            ->with('undo', '<span class="font-bold">' . $category->name . '</span> deleted! <a class="font-bold text-indigo-500 link-underline transition duration-150 ease-in-out" href="' . route('admin.categories.restore', $category->id) . '">Oops, Undo</a>');
+    }
+    public function restore($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        if ($category && $category->trashed()) {
+            $category->restore();
+        }
+        return redirect()->route('admin.categories.index')->with('success', 'Category restore successful !');
     }
 }

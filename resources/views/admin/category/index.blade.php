@@ -44,7 +44,8 @@
                         </td>
                         <td class="py-3 px-3 text-center">
                             <div class="flex items-center justify-center">
-                                <img src="{{ $category->getFirstMediaUrl('categories','thumb-60') }}" class=""
+                                <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-60') }}" class="w-16 h-16"
+                                    onerror="this.onerror=null;this.src='{{ asset('assets/images/404.webp') }}';"
                                     alt="{{ $category->name }}">
                             </div>
                         </td>

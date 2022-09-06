@@ -31,12 +31,6 @@
                     <x-label for="parent_id" value="{{ __('Category') }}" />
                     <x-select name="parent_id" id="parent_id">
                         <option value="">--Select category--</option>
-                        {{-- @foreach ($allCategories as $item)
-                            <option value="{{ $item->id }}"
-                                {{ $category->parent_id == $item->id ? 'selected' : '' }}>
-                                {{ $item->name }}
-                            </option>
-                        @endforeach --}}
                         {!! $options !!}
                     </x-select>
                     <x-input-error for="parent_id" class="mt-2" />
@@ -70,8 +64,9 @@
                     <input type="file" class="block mt-1 w-full" class="" name="image" id="image">
                     <x-input-error for="image" class="mt-2" />
                 </div>
-                <div class="col-span-6 sm:col-span-3">
+                <div class="col-span-6 sm:col-span-3 flex justify-center items-center">
                     <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-100') }}" class="w-36 h-36"
+                        onerror="this.onerror=null;this.src='{{ asset('assets/images/404.webp') }}';"
                         alt="{{ $category->name }}">
                 </div>
             </div>

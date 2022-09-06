@@ -6,6 +6,7 @@ use App\Traits\FilePondMedia;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -16,6 +17,7 @@ class Category extends Model  implements HasMedia
     use Sluggable;
     use InteractsWithMedia;
     use FilePondMedia;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'slug', 'order_at', 'status', 'parent_id', 'image'];
 

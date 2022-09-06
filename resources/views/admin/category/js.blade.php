@@ -35,7 +35,7 @@
     );
     const pond = FilePond.create(inputElement, {
         // labelIdle: `Kéo và thả hình vào đây hoặc <span class="filepond--label-action">Chọn từ thiết bị</span>`,
-        labelIdle: `{{ __('Drag and drop your files or browse your computer') }}`,
+        // labelIdle: `{{ __('Drag and drop your files or browse your computer') }}`,
         labelFileProcessing: `{{ __('Processing...') }}`,
         labelFileProcessingComplete: `{{ __('Upload successfully') }}`,
         labelTapToUndo: `{{ __('Touch to undo') }}`,
