@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Components\CategoryRecursive;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Components\CategoryRecursive;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Models\Category;
 
 
 class CategoryController extends Controller
@@ -23,11 +24,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::when(request('search'), function ($query) {
             return $query->where('name', 'like', '%' . request('search') . '%');
         })
+            ->when($request->has('archive'), function ($query) {
+                $query->onlyTrashed();
+            })
+            ->withTrashed()
             ->orderBy('id', 'desc')
             ->paginate(10);
 
@@ -124,14 +129,21 @@ class CategoryController extends Controller
         // $category->clearMediaCollection('categories');
 
         return redirect()->route('admin.categories.index')
-            ->with('undo', '<span class="font-bold">' . $category->name . '</span> deleted! <a class="font-bold text-indigo-500 link-underline transition duration-150 ease-in-out" href="' . route('admin.categories.restore', $category->id) . '">Oops, Undo</a>');
+            ->with('undo', '<span class="font-bold">' . $category->name . '</span> deleted! <a class="font-bold text-indigo-500 link-underline transition duration-150 ease-in-out" href="' . route('admin.categories.get.restore', $category->id) . '">Oops, Undo</a>');
     }
     public function restore($id)
     {
-        $category = Category::withTrashed()->findOrFail($id);
+        $category = Category::onlyTrashed()->findOrFail($id);
         if ($category && $category->trashed()) {
             $category->restore();
         }
         return redirect()->route('admin.categories.index')->with('success', 'Category restore successful !');
+    }
+    public function forceDelete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category force delete successful !');
     }
 }

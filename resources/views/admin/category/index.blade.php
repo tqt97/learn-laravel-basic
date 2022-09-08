@@ -11,9 +11,14 @@
     <x-container>
 
         <a href="{{ route('admin.categories.create') }}"
-            class="inline-flex items-center mb-5 px-4 py-2 bg-indigo-700 hover:scale-95 shadow-md hover:shadow-lg border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-600 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+            class="inline-flex items-center mb-5 px-4 py-2 bg-indigo-700 hover:scale-95 shadow-md hover:shadow-lg border border-transparent rounded-md font-semibold text-sm text-white tracking-widest hover:bg-indigo-600 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
             <x-icon.plus />
             {{ __('Add new') }}
+        </a>
+        <a href="{{ route('admin.categories.index') }}?archive"
+            class="inline-flex items-center mb-5 px-4 py-2 bg-orange-700 hover:scale-95 shadow-md hover:shadow-lg border border-transparent rounded-md font-semibold text-sm text-white tracking-widest hover:bg-orange-600 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+
+            <x-icon.archive />{{ __('Archives') }}
         </a>
 
         @include('admin.category.filter')
@@ -44,7 +49,8 @@
                         </td>
                         <td class="py-3 px-3 text-center">
                             <div class="flex items-center justify-center">
-                                <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-60') }}" class="w-16 h-16"
+                                <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-60') }}"
+                                    class="w-16 h-16"
                                     onerror="this.onerror=null;this.src='{{ asset('assets/images/404.webp') }}';"
                                     alt="{{ $category->name }}">
                             </div>
@@ -70,24 +76,51 @@
                         </td>
                         <td class="py-3 pl-3 pr-3 text-center">
                             <div class="flex item-center justify-center">
-                                <div
-                                    class="mr-4 transform text-blue-600 hover:text-cyan-700 hover:scale-110 transition duration-150 ease-in-out">
-                                    <a href="{{ route('admin.categories.edit', $category) }}">
-                                        <x-icon.edit />
-                                    </a>
-                                </div>
-                                <div
-                                    class="transform text-red-600 hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out">
-                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                        style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            onclick="return confirm('Do you want to delete this item ?')">
-                                            <x-icon.trash />
-                                        </button>
-                                    </form>
-                                </div>
+                                @if ($category->trashed())
+                                    <div
+                                        class="mr-4 transform text-blue-600 hover:text-blue-700 hover:scale-110 transition duration-150 ease-in-out">
+                                        <form action="{{ route('admin.categories.post.restore', $category->id) }}"
+                                            method="POST" style="display: inline-block;">
+                                            @csrf
+                                            <button type="submit"
+                                                onclick="return confirm('Do you want to restore this item ?')">
+                                                <x-icon.undo />
+                                                {{-- Restore --}}
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div
+                                        class="transform text-red-600 hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out">
+                                        <form action="{{ route('admin.categories.force_delete', $category->id) }}"
+                                            method="POST" style="display: inline-block;">
+                                            @csrf
+                                            <button type="submit"
+                                                onclick="return confirm('Do you want to delete forever this item ?')">
+                                                <x-icon.archive-box />
+                                                {{-- Delete Forever --}}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div
+                                        class="mr-4 transform text-blue-600 hover:text-cyan-700 hover:scale-110 transition duration-150 ease-in-out">
+                                        <a href="{{ route('admin.categories.edit', $category) }}">
+                                            <x-icon.edit />
+                                        </a>
+                                    </div>
+                                    <div
+                                        class="transform text-red-600 hover:text-red-700 hover:scale-110 transition duration-150 ease-in-out">
+                                        <form action="{{ route('admin.categories.destroy', $category) }}"
+                                            method="POST" style="display: inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                onclick="return confirm('Do you want to delete this item ?')">
+                                                <x-icon.trash />
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
                             </div>
                         </td>
                     </tr>
