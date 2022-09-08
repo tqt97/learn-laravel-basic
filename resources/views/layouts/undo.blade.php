@@ -1,9 +1,9 @@
 @if (session()->has('undo'))
-    <div class="pt-5" x-cloak x-data="{
+    <div class="pt-5 container mx-auto w-full" x-cloak x-data="{
         isOpen: true,
         secondsLeft: 20
     }" x-init="window.setInterval(() => { if (secondsLeft > 0) secondsLeft = secondsLeft - 1; }, 1000), setTimeout(() => isOpen = false, 20000)" x-show="isOpen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-md sm:rounded-lg">
                 <div class="py-3 px-5 shadow-lg bg-white border-b border-gray-200">
                     <div x-transition:enter="transition ease-out duration-300"

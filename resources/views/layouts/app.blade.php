@@ -39,28 +39,38 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
 
-        @include('layouts.notification')
+    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-100">
+        @include('layouts.sidebar')
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        {{ $header }}
-                    </h2>
+        <div class="flex-1 flex flex-col overflow-hidden">
+            @include('layouts.header')
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+                <div class="container mx-auto p-1">
+                    @if (isset($header))
+                        <div class="container mx-auto ">
+                            <div class="py-3 sm:px-0 px-5">
+                                <h3 class="text-indigo-800 text-xl font-bold">
+                                    {{ $header }}
+                                </h3>
+                            </div>
+                        </div>
+                    @endif
+                    @include('layouts.notification')
+
+                    @include('layouts.undo')
+
+                    <div class="flex flex-col my-3">
+                        <div class="overflow-x-auto">
+                            <div
+                                class="p-5 bg-white shadow-lg align-middle inline-block min-w-full overflow-hidden sm:rounded-lg border-b border-gray-200">
+                                {{ $slot }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </header>
-        @endif
-
-        <!-- Page Content -->
-        <main>
-        @include('layouts.undo')
-
-            {{ $slot }}
-        </main>
+            </main>
+        </div>
     </div>
 </body>
 
