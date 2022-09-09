@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Components\CategoryRecursive;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 
 class CategoryController extends Controller
@@ -26,15 +27,18 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::when(request('search'), function ($query) {
-            return $query->where('name', 'like', '%' . request('search') . '%');
-        })
+        $categories = Category::with('media')
+            ->when(request('search'), function ($query) {
+                return $query->where('name', 'like', '%' . request('search') . '%');
+            })
             ->when($request->has('archive'), function ($query) {
                 $query->onlyTrashed();
             })
             ->withTrashed()
             ->orderBy('id', 'desc')
             ->paginate(10);
+
+        Session::put('back_url', url()->full());
 
         return view('admin.category.index', compact('categories'));
     }
@@ -114,6 +118,9 @@ class CategoryController extends Controller
 
         $category->updateFilePondMedia($request, $category, 'categories');
 
+        if (session('back_url')) {
+            return redirect(session('back_url'));
+        }
         return redirect()->route('admin.categories.index')->with('success', 'Edit category successful !');
     }
 
@@ -126,8 +133,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        // $category->clearMediaCollection('categories');
 
+        if (session('back_url')) {
+            return redirect(session('back_url'));
+        }
         return redirect()->route('admin.categories.index')
             ->with('undo', '<span class="font-bold">' . $category->name . '</span> deleted! <a class="font-bold text-indigo-500 link-underline transition duration-150 ease-in-out" href="' . route('admin.categories.get.restore', $category->id) . '">Oops, Undo</a>');
     }
@@ -137,13 +146,22 @@ class CategoryController extends Controller
         if ($category && $category->trashed()) {
             $category->restore();
         }
+
+        if (session('back_url')) {
+            return redirect(session('back_url'));
+        }
         return redirect()->route('admin.categories.index')->with('success', 'Category restore successful !');
     }
     public function forceDelete($id)
     {
         $category = Category::onlyTrashed()->findOrFail($id);
         $category->forceDelete();
+        $category->clearMediaCollection('categories');
 
+
+        if (session('back_url')) {
+            return redirect(session('back_url'));
+        }
         return redirect()->route('admin.categories.index')->with('success', 'Category force delete successful !');
     }
 }
