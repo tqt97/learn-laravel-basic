@@ -17,6 +17,10 @@
         /* color: #355d88 */
     }
 
+    .select2-container {
+        width: 100% !important;
+    }
+
     .select2-container--default .select2-selection--multiple {
         border-color: rgb(209 213 219) !important;
     }

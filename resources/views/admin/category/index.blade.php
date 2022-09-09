@@ -125,8 +125,7 @@
                 </tr>
             @endforelse
         </tbody>
-    </table>
-
+        </table>
     <div class="mt-5 mx-2">
         {{ $categories->appends($_GET)->links() }}
     </div>

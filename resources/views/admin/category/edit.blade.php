@@ -62,8 +62,9 @@
                 <input type="file" class="block mt-1 w-full" class="" name="image" id="image">
                 <x-input-error for="image" class="mt-2" />
             </div>
-            <div class="col-span-6 sm:col-span-3 flex justify-center items-center">
-                <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-100') }}" class="w-36 h-36"
+            <div class="col-span-6 sm:col-span-3">
+                <x-label for="image" value="{{ __('Old image') }}" />
+                <img src="{{ $category->getFirstMediaUrl('categories', 'thumb-100') }}" class="w-32 h-32"
                     onerror="this.onerror=null;this.src='{{ asset('assets/images/404.webp') }}';"
                     alt="{{ $category->name }}">
             </div>
