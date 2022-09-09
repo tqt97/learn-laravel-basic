@@ -27,16 +27,16 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::with('media')
-            ->when(request('search'), function ($query) {
-                return $query->where('name', 'like', '%' . request('search') . '%');
-            })
-            ->when($request->has('archive'), function ($query) {
-                $query->onlyTrashed();
-            })
-            ->withTrashed()
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        $categories = Category::tree()
+            ->withCount('children')
+            ->when(
+                $request->has('archive'),
+                function ($query) {
+                    $query->onlyTrashed();
+                }
+            )
+            ->get()
+            ->toTree();
 
         Session::put('back_url', url()->full());
 

@@ -73,4 +73,53 @@
     .select2-container--default .select2-results__option--disabled {
         /* color: #000 !important; */
     }
+
+
+    /**/
+    .menu {
+        /* width: 300px; */
+        margin: auto;
+    }
+
+    .tree {
+        list-style: none;
+        padding-left: 20px;
+        position: relative;
+        color: rgb(39, 39, 39);
+    }
+
+    .tree:before {
+        content: '';
+        width: 1px;
+        background: rgb(39, 39, 39);
+        top: -7px;
+        bottom: 7px;
+        left: 0;
+        position: absolute;
+    }
+
+    .tree li {
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .tree li:hover,
+    .tree li:focus {
+        color: #000000;
+        cursor: pointer;
+    }
+
+    .tree li:before {
+        content: '';
+        width: 22px;
+        height: 1px;
+        background: rgb(39, 39, 39);
+        top: 17px;
+        left: -20px;
+        position: absolute;
+    }
+
+    .tree .tree {
+        /* display: none; */
+    }
 </style>
