@@ -25,7 +25,7 @@
             </div>
             <div class="col-span-6 sm:col-span-3">
                 <x-label for="parent_id" value="{{ __('Category') }}" />
-                <x-select name="parent_id" id="parent_id">
+                <x-select name="parent_id" id="parent_id" class="w-full">
                     <option value="">--Select category--</option>
                     {!! $options !!}
                 </x-select>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="mt-5">
-            <x-button> {{ __('Save') }} </x-button>
+            <x-button > {{ __('Save') }} </x-button>
         </div>
     </form>
 

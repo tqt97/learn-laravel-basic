@@ -39,14 +39,14 @@
 </head>
 
 <body class="font-sans antialiased">
-
     <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-100">
         @include('layouts.sidebar')
 
         <div class="flex-1 flex flex-col overflow-hidden">
             @include('layouts.header')
+
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-                <div class="container mx-auto p-1">
+                <div class="container mx-auto p-5 md:p-3">
                     @if (isset($header))
                         <div class="container mx-auto ">
                             <div class="py-3 sm:px-0 px-5">
@@ -71,7 +71,6 @@
                 </div>
             </main>
         </div>
-    </div>
 </body>
 
 </html>
